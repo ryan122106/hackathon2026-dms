@@ -1,5 +1,7 @@
 # DMS NextGen AI — running application
 
+**Provider integration update:** The OpenCode configuration identified your custom gateway (`muse-1.3-gcr`), which now works with the existing key in ignored `.env.local`. The earlier 401 concerned the wrong destination, direct Meta. Live extraction, Copilot classification and a live browser walkthrough passed against the approved demo gateway. See [META_AI_SETUP.md](META_AI_SETUP.md) for the current provider settings and guardrails; the notes below describe the earlier baseline.
+
 Implemented directly in the handoff folder with Next.js App Router, TypeScript, Tailwind CSS 4, Zod and locally bundled Inter. All original documentation, HTML references and seven wireframes are retained. No nested application folder or GCR integration is used.
 
 ## Run

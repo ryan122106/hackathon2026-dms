@@ -31,11 +31,15 @@ export const intentSchema = z.discriminatedUnion('kind', [
   z.object({kind:z.literal('customers.find'),text:z.string().max(100)}).strict(),
   z.object({kind:z.literal('appointments.find'),date:z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),customerText:text.optional()}).strict(),
   z.object({kind:z.literal('inventory.low_stock')}).strict(),
+  z.object({kind:z.literal('inventory.find'),text:z.string().trim().max(100).optional()}).strict(),
+  z.object({kind:z.literal('workspace.summary')}).strict(),
   z.object({kind:z.literal('orders.summarize'),orderId:text.optional()}).strict(),
   z.object({kind:z.literal('orders.prepare_draft'),note:z.string().max(500).optional()}).strict(),
   z.object({kind:z.literal('help.navigate'),page:z.enum(['dashboard','service-orders','customers','appointments','inventory'])}).strict(),
+  z.object({kind:z.literal('help.converse'),topic:z.enum(['workflow','automotive','general','clarification']),answer:z.string().trim().min(2).max(2400)}).strict(),
   z.object({kind:z.literal('help.unsupported'),reason:text}).strict()
 ]);
 export type CopilotIntent = z.infer<typeof intentSchema>;
-export const copilotRequestSchema = z.object({message:z.string().trim().min(2).max(500),activePage:z.string().max(150),activeOrderId:z.string().max(60).optional(),sanitizedSnapshot:snapshotSchema}).strict();
+export const chatHistorySchema=z.array(z.object({role:z.enum(['user','assistant']),content:z.string().max(1200),recordIds:z.array(z.string().max(60)).max(5).optional()}).strict()).max(6);
+export const copilotRequestSchema = z.object({message:z.string().trim().min(2).max(500),activePage:z.string().max(150),activeOrderId:z.string().max(60).optional(),history:chatHistorySchema.optional(),sanitizedSnapshot:snapshotSchema}).strict();
 export const draftRequestSchema = z.object({note:z.string().trim().min(8).max(1800),vehicle:z.object({make:text,model:text}).strict()}).strict();
