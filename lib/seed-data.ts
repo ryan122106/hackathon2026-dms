@@ -1,0 +1,18 @@
+import type { DemoState } from './schemas';
+import { dayKey } from './dates';
+export function createSeed(): DemoState {
+ const today=dayKey(); const tomorrow=dayKey(new Date(Date.now()+86400000));
+ const base={missingInformation:[],safetyFlags:[],appointmentPreference:null,advisorNote:'',origin:'seed' as const};
+ return {
+ customers:[{id:'C001',name:'Aisyah Rahman',vehicleIds:['V001']},{id:'C002',name:'Ravi Kumar',vehicleIds:['V002']},{id:'C003',name:'Mei Tan',vehicleIds:['V003']},{id:'C004',name:'Daniel Lee',vehicleIds:['V004']},{id:'C005',name:'Nadia Wong',vehicleIds:['V005']}],
+ vehicles:[{id:'V001',customerId:'C001',make:'Honda',model:'City',year:2020,plate:'PMX 1234'},{id:'V002',customerId:'C002',make:'Toyota',model:'Vios',year:2019,plate:'PNY 5678'},{id:'V003',customerId:'C003',make:'Perodua',model:'Myvi',year:2021,plate:'PQR 2468'},{id:'V004',customerId:'C004',make:'Honda',model:'HR-V',year:2022,plate:'PNQ 5231'},{id:'V005',customerId:'C005',make:'Proton',model:'X50',year:2023,plate:'PJV 8032'}],
+ orders:[
+ {...base,id:'SO-1001',customerId:'C001',vehicleId:'V001',originalNote:'Aircond not cold.',complaints:['A/C not cooling'],inspectionTasks:['Inspect A/C cooling performance'],status:'Open',createdAt:`${today}T01:00:00.000Z`,missingInformation:['When did cooling performance change?']},
+ {...base,id:'SO-1002',customerId:'C002',vehicleId:'V002',originalNote:'Customer requests scheduled maintenance.',complaints:['Scheduled maintenance requested'],inspectionTasks:['Inspect vehicle according to maintenance schedule'],status:'In Progress',createdAt:`${today}T00:30:00.000Z`},
+ {...base,id:'SO-1003',customerId:'C003',vehicleId:'V003',originalNote:'Customer reported engine noise.',complaints:['Engine noise reported'],inspectionTasks:['Inspect and investigate reported engine noise'],status:'Ready',createdAt:`${today}T00:00:00.000Z`},
+ {...base,id:'SO-1004',customerId:'C004',vehicleId:'V004',originalNote:'Customer reported brake vibration.',complaints:['Vibration during braking'],inspectionTasks:['Inspect brake system'],safetyFlags:['Brake complaint needs qualified technician review'],status:'Completed',createdAt:`${today}T00:00:00.000Z`},
+ {...base,id:'SO-1005',customerId:'C005',vehicleId:'V005',originalNote:'Air conditioning not cold.',complaints:['A/C not cooling'],inspectionTasks:['Inspect A/C performance'],status:'Open',createdAt:`${today}T00:00:00.000Z`}],
+ appointments:[{id:'APT-001',customerId:'C001',vehicleId:'V001',startsAt:`${today}T09:00:00+08:00`,status:'Confirmed',purpose:'A/C inspection'},{id:'APT-002',customerId:'C002',vehicleId:'V002',startsAt:`${today}T10:30:00+08:00`,status:'Confirmed',purpose:'Scheduled maintenance'},{id:'APT-003',customerId:'C003',vehicleId:'V003',startsAt:`${today}T11:00:00+08:00`,status:'Scheduled',purpose:'Service collection'},{id:'APT-004',customerId:'C004',vehicleId:'V004',startsAt:`${today}T14:00:00+08:00`,status:'Scheduled',purpose:'General inspection'},{id:'APT-005',customerId:'C005',vehicleId:'V005',startsAt:`${tomorrow}T09:30:00+08:00`,status:'Scheduled',purpose:'A/C inspection'}],
+ parts:[{sku:'BRK-001',name:'Front brake pads',stockQty:2,lowStockThreshold:5,unit:'sets'},{sku:'FLT-001',name:'Engine oil filter',stockQty:4,lowStockThreshold:6,unit:'pcs'},{sku:'FLT-002',name:'Engine air filter',stockQty:3,lowStockThreshold:5,unit:'pcs'},{sku:'OIL-001',name:'Engine oil 5W-30',stockQty:24,lowStockThreshold:10,unit:'litres'},{sku:'SPK-001',name:'Spark plugs',stockQty:18,lowStockThreshold:8,unit:'pcs'},{sku:'WPR-001',name:'Wiper blades',stockQty:12,lowStockThreshold:4,unit:'pairs'},{sku:'CLT-001',name:'Engine coolant',stockQty:16,lowStockThreshold:6,unit:'litres'},{sku:'BLT-001',name:'Drive belt',stockQty:7,lowStockThreshold:3,unit:'pcs'}]
+ };
+}
